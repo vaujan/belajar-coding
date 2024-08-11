@@ -30,7 +30,7 @@ const dataComments = [
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(methodOverrid("_method"));
+app.use(methodOverride("_method"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -64,14 +64,18 @@ app.get("/comments/:id", (req, res) => {
   }
 });
 
-app.patch("/comments/:id", (req, res) => {
+app.get("/comments/:id/edit", (req, res) => {
   const { id } = req.params;
-  const { comment } = req.body.comment;
-  const newComment = comment;
+  const comment = dataComments.find((c) => c.id === id);
+  res.render("comments/edit", { comment, id });
+});
+
+app.patch("/comments/:id/edit", (req, res) => {
+  const { id } = req.params;
+  const newCommentText = req.body.comment;
   const foundComment = dataComments.find((c) => c.id === id);
-  foundComment.comment = newComment;
-  console.log("hello");
-  res.send("/");
+  foundComment.comment = newCommentText;
+  res.redirect("/");
 });
 
 //---closing---//

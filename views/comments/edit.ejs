@@ -3,12 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View Comment</title>
+    <title>Edit Comment</title>
   </head>
   <body>
     <a href="/">View all comments</a>
     <h1>Highlighted Comment id <%= comment.id %></h1>
-    <h2><%= comment.comment %> - <%= comment.username %></h2>
-    <a href="/comments/<%= comment.id %>/edit">edit</a>
+    <form action="/comments/<%= comment.id %>/edit?_method=PATCH" method="post">
+      <textarea name="comment"><%= comment.comment %></textarea>
+      <button>Confirm edit</button>
+    </form>
   </body>
 </html>
