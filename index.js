@@ -5,7 +5,7 @@ const path = require("path");
 const { v4: uuid } = require("uuid");
 const methodOverride = require("method-override");
 // Database
-const dataComments = [
+let dataComments = [
   {
     id: uuid(),
     username: "Ojan",
@@ -50,7 +50,7 @@ app.post("/comments/", (req, res) => {
   dataComments.push({ username, comment, id: uuid() });
   res.redirect("/"); //Kembali ke app.get('/', (req, res ...))
 });
-//---closing---uuid/
+//---closing---/
 
 //View & Edit COMMENT:
 
@@ -75,6 +75,13 @@ app.patch("/comments/:id/edit", (req, res) => {
   const newCommentText = req.body.comment;
   const foundComment = dataComments.find((c) => c.id === id);
   foundComment.comment = newCommentText;
+  res.redirect("/");
+});
+
+app.delete("/comments/:id", (req, res) => {
+  const { id } = req.params;
+  const updatedDataComments = dataComments.filter((c) => c.id !== id);
+  dataComments = updatedDataComments;
   res.redirect("/");
 });
 
